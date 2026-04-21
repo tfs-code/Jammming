@@ -3,6 +3,7 @@ import "./App.css";
 import SearchBar from "../SearchBar/SearchBar";
 import SearchResults from "../SearchResults/SearchResults";
 import Playlist from "../Playlist/Playlist";
+import { Spotify } from "../../util/Spotify";
 
 class App extends React.Component {
     constructor(props) {
@@ -42,6 +43,11 @@ class App extends React.Component {
         this.removeTrack = this.removeTrack.bind(this);
         this.updatePlaylistName = this.updatePlaylistName.bind(this);
         this.savePlaylist = this.savePlaylist.bind(this);
+        this.search = this.search.bind(this);
+    }
+
+    componentDidMount() {
+        Spotify.getAccessToken();
     }
 
     addTrack(track) {
@@ -71,6 +77,13 @@ class App extends React.Component {
         const trackURIs = this.state.playlistTracks.map((track) => track.uri);
     }
 
+    search(term) {
+        Spotify.search(term).then((result) => {
+            this.setState({ searchResults: result });
+        });
+        console.log(term);
+    }
+
     render() {
         return (
             <div>
@@ -79,7 +92,7 @@ class App extends React.Component {
                 </h1>
                 <div className="App">
                     {/* <!-- Add a SearchBar component --> */}
-                    <SearchBar />
+                    <SearchBar onSearch={this.search} />
                     <div className="App-playlist">
                         {/* <!-- Add a SearchResults component --> */}
                         <SearchResults
@@ -102,5 +115,3 @@ class App extends React.Component {
 }
 
 export default App;
-
-// FIND ERROR
