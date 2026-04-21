@@ -4,7 +4,14 @@ import "./Track.css";
 class Track extends React.Component {
     renderAction() {
         if (this.props.isRemoval) {
-            return <button className="Track-action">-</button>;
+            return (
+                <button
+                    className="Track-action"
+                    onClick={() => this.removeTrack()}
+                >
+                    -
+                </button>
+            );
         } else {
             return (
                 <button
@@ -19,6 +26,10 @@ class Track extends React.Component {
 
     addTrack() {
         this.props.onAdd(this.props.track);
+    }
+
+    removeTrack() {
+        this.props.onRemove(this.props.track);
     }
 
     render() {
